@@ -1,10 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
+import addToStorages from "../utils/addToStorages";
+import getStorage from "../utils/getStorage";
+
+const storageItem = getStorage('basket') ?
+    getStorage('basket').items :
+    []
+
+const storageInvoice = getStorage('basket') ?
+    getStorage('basket').invoice :
+    { totalPrice: 0 }
 
 const initState = {
-    items: [],
-    invoice: {
-        totalPrice: 0
-    }
+    items: storageItem,
+    invoice: storageInvoice
 }
 
 const basketSlice = createSlice({
@@ -37,7 +45,7 @@ const basketSlice = createSlice({
                 ]
             }
 
-            console.log(state.items);
+            addToStorages('basket', state)
 
 
         },
@@ -64,6 +72,8 @@ const basketSlice = createSlice({
                     return item
                 })
             }
+
+            addToStorages('basket', state)
 
         }
 
